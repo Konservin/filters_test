@@ -9,6 +9,9 @@ setup:
 	composer install
 	yarn install
 	npm run dev
+	docker-compose down -v
+	docker-compose rm -f
+	docker volume prune -f
 	docker-compose build --no-cache && docker-compose up -d
 
 reload:
