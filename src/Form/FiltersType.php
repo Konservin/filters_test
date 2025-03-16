@@ -1,0 +1,57 @@
+<?php
+
+namespace App\Form;
+
+use App\Entity\Criteria;
+use App\Entity\Filters;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+
+class FiltersType extends AbstractType
+{
+    public function buildForm(FormBuilderInterface $builder, array $options): void
+    {
+        $builder
+            ->add('name', TextType::class, [
+                'label' => 'Filter Name',
+                'required' => true,
+            ])
+            ->add('criteria', CollectionType::class, [
+                'entry_type' => CriteriaType::class,
+                'allow_add' => true,
+                'allow_delete' => true,
+                //'by_reference' => false,
+                'label' => false,
+                'prototype' => true,
+                'entry_options' => [
+                    'label' => false
+                ],
+        ]);
+        $builder->addEventListener(
+            FormEvents::POST_SUBMIT,
+            function (FormEvent $event) {
+                $form = $event->getForm();
+                $data = $form->getData();
+                /* @var Criteria $criteria */
+                foreach ($data->getCriteria() as $criteria) {
+                    dump($criteria);
+                    if (!$criteria->getFilter()) {
+                        $criteria->setFilter($data);
+                    }
+                }
+            }
+        );
+    }
+
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults([
+            'data_class' => Filters::class,
+        ]);
+    }
+}

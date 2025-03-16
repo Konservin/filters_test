@@ -1,0 +1,54 @@
+{% block form_theme %}
+{% endblock %}
+{% set asset_version = '1.0.5' %}
+<!DOCTYPE html>
+<html lang='et'>
+<head class="{% if headClasses is defined %}{{ headClasses }}{% endif %}">
+    <meta charset="UTF-8"/>
+    <title>{% block title %}Filters test app{% endblock %}</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
+    {% endblock %}
+</head>
+
+<body>
+<div class="wrapper">
+    <div class="main-panel">
+{% block whole_body %}
+        <div class="main-content">
+            <div class="container-fluid">
+            {% block body %}
+        {% if hasTopButtons is not defined or hasTopButtons %}
+            {% block layout_buttons %}
+                <div class="layout-buttons">
+                    {% block buttons %}
+                    {% endblock %}
+                </div>
+            {% endblock %}
+
+            <hr class="layout-hr">
+        {% endif %}
+        {% block content %}
+        {% endblock %}
+    {% endblock %}
+            </div>
+        </div>
+{% endblock %}
+    </div>
+</div>
+
+
+
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('app') }}
+    {% block javascript_start %}
+    {% endblock %}
+    {% block javascript_end %}
+    {% endblock %}
+{% endblock %}
+
+</body>
+</html>

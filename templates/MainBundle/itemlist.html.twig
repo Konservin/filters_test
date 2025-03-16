@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="content">
+                    <div class="toolbar">
+                        {% block table_layout %}
+                        {% endblock %}
+                    </div>
+                </div><!-- end content-->
+                <div class="toolbar">
+                    {% block table_buttons %}
+                    {% endblock %}
+                </div>
+                {% block modal_layout %}
+                {% endblock %}
+            </div><!--  end card  -->
+        </div>
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+  {% block javascripts %}
+      {{ parent() }}
+{% endblock %}

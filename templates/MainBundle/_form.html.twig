@@ -1,0 +1,40 @@
+{{ form_start(form, {'action': path('new_filter'), 'attr': {'id': 'filterForm'}}) }}
+
+<!-- Filter Name Field -->
+<div class="mb-3">
+    {{ form_label(form.name) }}
+    {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+</div>
+
+<!-- Criteria Table -->
+<div class="table-responsive">
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Filter Type</th>
+            <th>Filter Subtype</th>
+            <th>Value</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody id="criteria-collection" data-prototype="{{ form_widget(form.criteria.vars.prototype)|e }}">
+        {% for criteriaForm in form.criteria %}
+            <tr class="criteria-item">
+                <td>{{ form_widget(criteriaForm.type, { 'attr': {'class': 'form-select js-type-select'} }) }}</td>
+                <td>{{ form_widget(criteriaForm.subtype, { 'attr': {'class': 'form-select js-subtype-select'} }) }}</td>
+                <td>{{ form_widget(criteriaForm.value, { 'attr': {'class': 'form-control js-value-input'} }) }}</td>
+                <td><button type="button" class="btn btn-danger btn-sm remove-criteria">Remove</button></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Add Criteria Button -->
+<button type="button" id="add-criteria" class="btn btn-secondary">Add Criteria</button>
+
+<!-- Save Button -->
+<button type="submit" class="btn btn-primary">Save Filter</button>
+
+{{ form_end(form) }}
+

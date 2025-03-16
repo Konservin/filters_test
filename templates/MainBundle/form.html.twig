@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        {% dump %}
+        <h1 class="mt-4">{% if title is defined %}{{ title }}{% else %}Create New Filter{% endif %}</h1>
+        {{ form_start(form) }}
+
+        <!-- Filter Name Inline -->
+        <div class="mb-3">
+            <label class="form-label">{{ form_label(form.name) }}</label>
+            {{ form_widget(form.name, { 'attr': {'class': 'form-control'} }) }}
+        </div>
+
+        <!-- Criteria Table Layout -->
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>Filter Type</th>
+                    <th>Filter Subtype</th>
+                    <th>Value</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody id="criteria-collection" data-prototype="{{ form_row(form.criteria.vars.prototype)|e }}">
+                {% for criteriaForm in form.criteria %}
+                    <tr class="criteria-item">
+                        <td>{{ form_widget(criteriaForm.type, { 'attr': {'class': 'form-select js-type-select'} }) }}</td>
+                        <td>{{ form_widget(criteriaForm.subtype, { 'attr': {'class': 'form-select js-subtype-select'} }) }}</td>
+                        <td>{{ form_widget(criteriaForm.value, { 'attr': {'class': 'form-control js-value-input'} }) }}</td>
+                        <td><button type="button" class="btn btn-danger btn-sm remove-criteria" title="Remove"><i class="bi bi-trash"></i></button></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Buttons -->
+        <div class="mt-3">
+            <button type="button" id="add-criteria" class="btn btn-secondary">Add Criteria</button>
+            <button type="submit" class="btn btn-primary">Save Filter</button>
+        </div>
+
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

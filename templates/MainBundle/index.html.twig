@@ -1,0 +1,39 @@
+{% extends 'MainBundle/itemlist.html.twig' %}
+
+{% block layout_buttons %}
+    <h3>Filters list</h3>
+{% endblock %}
+{% block table_layout %}
+    <table class="table table-striped table-no-bordered table-hover dataTable">
+        <thead>
+            <th>Name</th>
+            <th>Criteria</th>
+        </thead>
+        <tbody>
+        {% for filter in filters %}
+        <tr>
+            <td>{{ filter.name }}</td>
+            <td>{{ filter.criteria }}</td>
+            <td><a class=" btn btn-simple btn-warning btn-icon pull-right"
+                   title="Edit"
+                   href="{{ path('edit_filter', {id: filter.id}) }}">
+                    <i class="bi bi-pencil"></i>
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+{% block table_buttons %}
+    <a href="{{ path('new_filter') }}" class="btn btn-primary">Add New Filter</a>
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#filterModal">
+        Add New Modal
+    </button>
+{% endblock %}
+{% block modal_layout %}
+{% include 'MainBundle/modal.html.twig' with {filters: filters} %}
+{% endblock %}
+{% block javascript %}
+
+{% endblock %}
