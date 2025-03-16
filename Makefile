@@ -6,7 +6,6 @@ help:
 	@echo "reload		to make a Docker reload"
 
 setup:
-	mkdir public
 	composer install
 	yarn install
 	npm run dev
