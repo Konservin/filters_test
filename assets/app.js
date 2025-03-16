@@ -116,6 +116,12 @@ document.addEventListener("DOMContentLoaded", function() {
     const filterModal = document.getElementById("filterModal");
     const filterFormContainer = document.getElementById("filterFormContainer");
 
+    $('.js-datepicker').datepicker({
+        format: 'dd.mm.yyyy', // Change format
+        autoclose: true,
+        todayHighlight: true
+    });
+
     if (filterModal) {
         filterModal.addEventListener("show.bs.modal", function () {
             fetch("/filter/new/modal", {

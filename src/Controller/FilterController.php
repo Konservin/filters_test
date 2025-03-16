@@ -2,7 +2,6 @@
 // src/Controller/FilterController.php
 namespace App\Controller;
 
-use App\Entity\Criteria;
 use App\Entity\Filters;
 use App\Form\CriteriaType;
 use App\Form\FiltersType;
