@@ -2,12 +2,15 @@
 
 help:
 	@echo "Please use \`make <target>' where <target> is one of"
+	@echo "setup		set up the original test project"
 	@echo "reload		to make a Docker reload"
 
 setup:
-	#composer install
-	#yarn install
-	#bin/create_database.sh
+	mkdir public
+	composer install
+	yarn install
+	npm run dev
+	docker-compose build --no-cache && docker-compose up -d
 
 reload:
 	#npm run dev
