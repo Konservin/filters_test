@@ -8,6 +8,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -52,6 +53,9 @@ class FiltersType extends AbstractType
                 $form = $event->getForm();
                 $data = $form->getData();
                 /* @var Criteria $criteria */
+                if ($data->getCriteria()->count() === 0) {
+                    $form->addError(new FormError("You must add at least one criteria before saving."));
+                }
                 foreach ($data->getCriteria() as $criteria) {
                     if (!$criteria->getFilter()) {
                         $criteria->setFilter($data);

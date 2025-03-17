@@ -13,15 +13,6 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import 'bootstrap-datepicker/dist/css/bootstrap-datepicker.css';
 import "./app.css"
 
-$(document).ready(function() {
-    console.log("jQuery is working!");
-    $('.js-datepicker').datepicker({
-        format: 'dd.mm.yyyy', // Change format
-        autoclose: true,
-        todayHighlight: true
-    });
-});
-
 // Function to handle type change event
 function onTypeChange(event) {
     const typeSelect = event.target;
@@ -35,8 +26,6 @@ function onTypeChange(event) {
         console.error("Subtype select not found!");
         return;
     }
-
-    // Clear existing options
     subtypeSelect.innerHTML = '<option value="">Select a subtype</option>';
 
     if (typeId) {
@@ -78,7 +67,6 @@ function onTypeChange(event) {
         .catch(error => console.error('Error fetching value type:', error));
 }
 
-// Function to add a new criteria
 function addCriteria(event) {
     event.preventDefault();
 
@@ -115,9 +103,6 @@ function addCriteria(event) {
 
     collectionHolder.appendChild(newRow);
 
-
-
-    // Attach event listener to the new type select
     let newTypeSelect = newRow.querySelector('.js-type-select');
     if (newTypeSelect) {
         newTypeSelect.value = "1"; // Preselect "Amount"
@@ -139,16 +124,13 @@ function attachAddCriteriaButton() {
     }
 }
 
-// Attach event listeners on DOMContentLoaded
 document.addEventListener("DOMContentLoaded", function() {
     attachAddCriteriaButton();
 
     let form = document.querySelector("form");
     if (form) {
-        let items = form.querySelectorAll('.criteria-item');
         let typeFields = document.querySelectorAll('[id^="filters_criteria_"][id$="_type"]');
         typeFields.forEach(field => {
-            console.log("Found:", field.id);
             let valueField = field.closest('.criteria-item').querySelector('[id^="filters_criteria_"][id$="_value"]');
             valueField.setAttribute('placeholder', '')
             if (field.value === '1') {
@@ -166,7 +148,6 @@ document.addEventListener("DOMContentLoaded", function() {
                     autoclose: true,
                     todayHighlight: true
                 });
-                console.log("vaslue:", valueField);
             }
         });
     }
@@ -230,6 +211,9 @@ document.addEventListener("DOMContentLoaded", function() {
                 if (html.includes("<form")) {
                     document.getElementById("filterFormContainer").innerHTML = html;
                     attachAddCriteriaButton(); // Reattach Add Criteria after reload
+                }
+                if (html.includes("alert-danger") || html.includes("form-error")) {
+                    document.getElementById("editFilterFormContainer").innerHTML = html;
                 } else {
                     console.log("Form submission successful, reloading page...");
                     location.reload(); // Reload page if successful
@@ -237,7 +221,6 @@ document.addEventListener("DOMContentLoaded", function() {
             })
             .catch(error => console.error("Error submitting filter form:", error));
     }
-    const editFilterModal = document.getElementById("editFilterModal");
     const editFilterFormContainer = document.getElementById("editFilterFormContainer");
     const saveEditFilterBtn = document.getElementById("saveEditFilterBtn");
 
@@ -253,7 +236,6 @@ document.addEventListener("DOMContentLoaded", function() {
                 .then(html => {
                     editFilterFormContainer.innerHTML = html;
 
-                    // Attach event listener for submitting the form
                     let form = editFilterFormContainer.querySelector("form");
                     if (form) {
                         form.setAttribute('action', 'filter/edit/' + filterId);
@@ -271,25 +253,6 @@ document.addEventListener("DOMContentLoaded", function() {
                 .catch(error => console.error("Error loading edit filter form:", error));
         });
     });
-
-    // Function to submit edit form via AJAX
-    function submitEditFilterForm(form) {
-        let formData = new FormData(form);
-
-        fetch(form.action, {
-            method: form.method,
-            body: formData
-        })
-            .then(response => response.text())
-            .then(html => {
-                if (html.includes("error")) {
-                    editFilterFormContainer.innerHTML = html;
-                } else {
-                    location.reload(); // Reload page after successful edit
-                }
-            })
-            .catch(error => console.error("Error submitting edit filter form:", error));
-    }
 
     // Attach change event to existing type selects
     document.querySelectorAll('.js-type-select').forEach(select => {
@@ -343,7 +306,6 @@ document.addEventListener("DOMContentLoaded", function() {
                     .then(response => {
                         if (response.ok) {
                             rowToDelete.remove(); // Remove the row from the frontend
-                            console.log("Filter deleted successfully");
                         } else {
                             console.error("Failed to delete filter");
                         }
