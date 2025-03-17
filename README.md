@@ -42,3 +42,4 @@ Issues:
 3. Scrolling of form elements not supported in non-modal form (not requested in task specs, not critical)
 4. Native bootstrap datepicker is not too aesthetical, needs restyling
 5. JavaScript could be more abstract and reusable, few extra hours should fix that.
+6. Editing a filter doesn't change value field types. Problen initializing the form, few hours should fix it.
