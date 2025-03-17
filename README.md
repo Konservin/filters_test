@@ -14,16 +14,15 @@ To install the application in Linux, please follow these steps:
 
 1. Open the Linux terminal
 2. download the repository:
-   git clone git@github.com:Konservin/filters_test.git
+   (in Terminal) "git clone git@github.com:Konservin/filters_test.git"
 3. move to repository directory:
-   cd filters_test
+   (in Terminal) "cd filters_test"
 4. Initialize the application:
-   make setup
-5. Navigate to project URL in Chrome: http://localhost:8090
+   (in Terminal) "make setup"
+5. Navigate to project URL in Chrome: "http://localhost:8090"
 
-If you run into any permission issues, try pasting into terminal:
-	sudo chown -R 33:33 .
-	docker restart symfony_php
+If you run into any permission issues, try pasting into Terminal:
+	"make reload_dev"
 
 Features:
 
