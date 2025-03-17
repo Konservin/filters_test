@@ -21,6 +21,10 @@ To install the application in Linux, please follow these steps:
    make setup
 5. Navigate to project URL in Chrome: http://localhost:8090
 
+If you run into any permission issues, try pasting into terminal:
+	sudo chown -R 33:33 .
+	docker restart symfony_php
+
 Features:
 
 1. Edit existing filters by pressing the "Edit" button next to each filter
