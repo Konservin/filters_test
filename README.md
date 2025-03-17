@@ -35,3 +35,9 @@ Features:
 6. Delete criteria from new or existing filters
 7. Save new or existing criteria
 8. Toggle criteria subtype and value depending on criteria type
+
+Issues:
+1. Can add any number of filters with the same name
+2. Saving filter with no criteria redirects to non-modal form
+3. Scrolling of form elements not supported in non-modal form (not requested in task specs, not critical)
+4. Native bootstrap datepicker is not too aesthetical, needs restyling
