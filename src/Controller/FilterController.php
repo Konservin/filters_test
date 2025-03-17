@@ -2,7 +2,7 @@
 // src/Controller/FilterController.php
 namespace App\Controller;
 
-use App\Entity\Filters;
+use App\Entity\Filter;
 use App\Form\CriteriaType;
 use App\Form\FiltersType;
 use App\Repository\FiltersRepository;
@@ -37,10 +37,8 @@ class FilterController extends AbstractController
     #[Route('/filter/new', name: 'new_filter')]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
-        $filter = new Filters();
+        $filter = new Filter();
         $form = $this->createForm(FiltersType::class, $filter);
-        /*dump($form->getData()); // Check if `criteria` is part of the form
-        dump($form->createView());*/
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -59,7 +57,7 @@ class FilterController extends AbstractController
     #[Route('/filter/new/modal', name: 'new_filter_modal')]
     public function newModal(Request $request, EntityManagerInterface $entityManager): Response
     {
-        $filter = new Filters();
+        $filter = new Filter();
         $form = $this->createForm(FiltersType::class, $filter);
 
         if ($request->isXmlHttpRequest()) {
@@ -74,11 +72,8 @@ class FilterController extends AbstractController
     #[Route('/filter/edit/{id}', name: 'edit_filter')]
     public function edit(Request $request, int $id, EntityManagerInterface $entityManager): Response
     {
-        dump($id);
         $filter = $this->filtersRepository->find($id);
         $form = $this->createForm(FiltersType::class, $filter);
-        dump($form->getData()); // Check if `criteria` is part of the form
-        dump($form->createView());
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -97,7 +92,7 @@ class FilterController extends AbstractController
     #[Route('/filter/edit/modal/{id}', name: 'edit_filter_modal', methods: ['GET'])]
     public function editModal(int $id, EntityManagerInterface $entityManager): Response
     {
-        $filter = $entityManager->getRepository(Filters::class)->find($id);
+        $filter = $entityManager->getRepository(Filter::class)->find($id);
         if (!$filter) {
             return new Response('Filter not found', 404);
         }
@@ -113,7 +108,7 @@ class FilterController extends AbstractController
     #[Route('/filter/delete/{id}', name: 'delete_filter', methods: ['DELETE'])]
     public function delete(int $id, EntityManagerInterface $entityManager): JsonResponse
     {
-        $filter = $entityManager->getRepository(Filters::class)->find($id);
+        $filter = $entityManager->getRepository(Filter::class)->find($id);
         if (!$filter) {
             return new JsonResponse(['message' => 'Filter not found'], 404);
         }

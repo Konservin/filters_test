@@ -42,19 +42,6 @@ class FilterTypesRepository extends ServiceEntityRepository
             ->innerJoin('tsa.type', 'ft')  // Join filter types
             ->where('ft.id = :typeId')
             ->setParameter('typeId', $typeId);
-
-        dump($qb->getDQL()); // Debug DQL
-        dump($qb->getQuery()->getSQL()); // Debug SQL
         return $qb->getQuery()->getResult();
     }
-
-    //    public function findOneBySomeField($value): ?FilterTypes
-    //    {
-    //        return $this->createQueryBuilder('f')
-    //            ->andWhere('f.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
 }

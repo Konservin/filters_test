@@ -3,7 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Criteria;
-use App\Entity\Filters;
+use App\Entity\Filter;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -53,7 +53,6 @@ class FiltersType extends AbstractType
                 $data = $form->getData();
                 /* @var Criteria $criteria */
                 foreach ($data->getCriteria() as $criteria) {
-                    dump($criteria);
                     if (!$criteria->getFilter()) {
                         $criteria->setFilter($data);
                     }
@@ -65,7 +64,7 @@ class FiltersType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Filters::class,
+            'data_class' => Filter::class,
         ]);
     }
 }

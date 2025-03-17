@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Repository\FiltersRepository;
 
 #[ORM\Entity(repositoryClass: FiltersRepository::class)]
-class Filters
+class Filter
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]

@@ -44,16 +44,7 @@ class CriteriaType extends AbstractType
                 'required' => true,
                 'attr' => ['class' => 'js-value-input'], // JavaScript will modify this field
             ]);
-
-        // Listen for type changes and dynamically update subtype choices
-        $builder->addEventListener(
-            FormEvents::POST_SUBMIT,
-            function (FormEvent $event) {
-                $form = $event->getForm();
-                $data = $form->getData();
-                //dump($data);
-            }
-        );
+        
         $builder->get('type')->addEventListener(
             FormEvents::POST_SUBMIT,
             function (FormEvent $event) {

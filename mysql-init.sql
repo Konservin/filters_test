@@ -29,7 +29,7 @@ CREATE TABLE types_subtypes_assoc (
     FOREIGN KEY (type_id) REFERENCES filter_types(id),
     FOREIGN KEY (subtype_id) REFERENCES filter_subtypes(id)
 );
-CREATE TABLE filters (
+CREATE TABLE filter (
     id INT AUTO_INCREMENT NOT NULL,
     name VARCHAR(50) DEFAULT NULL,
     PRIMARY KEY (id)
@@ -42,7 +42,7 @@ CREATE TABLE criteria (
     subtype_id INT NOT NULL,  -- subtype will reference filter_subtypes.id
     value VARCHAR(50) DEFAULT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (filter_id) REFERENCES filters(id),
+    FOREIGN KEY (filter_id) REFERENCES filter(id),
     FOREIGN KEY (type_id) REFERENCES filter_types(id),
     FOREIGN KEY (subtype_id) REFERENCES filter_subtypes(id)
 );
@@ -63,8 +63,14 @@ INSERT INTO filter_values (type_id, value_type) VALUES
     (3, 'date');
 INSERT INTO types_subtypes_assoc (type_id, subtype_id) VALUES (1,1), (1,2), (1,3);
 INSERT INTO types_subtypes_assoc (type_id, subtype_id) VALUES (2,4), (2,5), (2,6);
-INSERT INTO filters (name) VALUES ('First filter');
-INSERT INTO filters (name) VALUES ('Second filter');
+INSERT INTO types_subtypes_assoc (type_id, subtype_id) VALUES (3,7), (3,8);
+
+INSERT INTO filter (name) VALUES ('First filter');
+INSERT INTO filter (name) VALUES ('Second filter');
+
 INSERT INTO criteria (filter_id, type_id, subtype_id, value) VALUES (1, 1, 1, 4);
 INSERT INTO criteria (filter_id, type_id, subtype_id, value) VALUES (1, 2, 4, 'Meow');
-
+INSERT INTO criteria (filter_id, type_id, subtype_id, value) VALUES (2, 1, 1, 48);
+INSERT INTO criteria (filter_id, type_id, subtype_id, value) VALUES (2, 1, 2, 188);
+INSERT INTO criteria (filter_id, type_id, subtype_id, value) VALUES (2, 2, 4, 'Woof');
+INSERT INTO criteria (filter_id, type_id, subtype_id, value) VALUES (2, 3, 6, '17.03.2024');

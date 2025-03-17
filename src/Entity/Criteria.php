@@ -13,9 +13,9 @@ class Criteria
     #[ORM\Column(type: 'integer')]
     private int $id;
 
-    #[ORM\ManyToOne(targetEntity: Filters::class, inversedBy: 'criteria')]
+    #[ORM\ManyToOne(targetEntity: Filter::class, inversedBy: 'criteria')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Filters $filter = null;
+    private ?Filter $filter = null;
 
     #[ORM\ManyToOne(targetEntity: FilterTypes::class)]
     #[ORM\JoinColumn(nullable: false)]
@@ -33,12 +33,12 @@ class Criteria
         return $this->id;
     }
 
-    public function getFilter(): ?Filters
+    public function getFilter(): ?Filter
     {
         return $this->filter;
     }
 
-    public function setFilter(Filters $filter): void
+    public function setFilter(Filter $filter): void
     {
         $this->filter = $filter;
     }

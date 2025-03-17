@@ -41,18 +41,13 @@ final class Controller extends AbstractController
                 $type = $criterion->getType()->getName();
                 $subtype = $criterion->getSubtype()->getName();
                 $value = $criterion->getValue();
-                dump($value);
                 if (!is_numeric($value)) {
                     $value = "'$value'";
                 }
-                dump($value);
                 $criteria[] = "$type $subtype $value";
-                dump($criterion);
             }
-            dump($criteria);
 
             $criteria = implode(', ', $criteria);
-            dump($criteria);
             $filters[] = [
                 'id' => $filter->getId(),
                 'name' => $filter->getName(),

@@ -19,13 +19,10 @@
                 <td>{{ filter.name }}</td>
                 <td>{{ filter.criteria }}</td>
                 <td>
-                    <a class="btn btn-warning btn-sm" title="Edit" href="{{ path('edit_filter', {id: filter.id}) }}">
-                        <i class="bi bi-pencil"></i> Edit
-                    </a>
                     <button type="button" class="btn btn-warning btn-sm edit-filter"
                             data-filter-id="{{ filter.id }}" data-bs-toggle="modal"
                             data-bs-target="#editFilterModal">
-                        <i class="bi bi-pencil"></i> Edit Filter
+                        <i class="bi bi-pencil"></i> Edit
                     </button>
                     <a class="btn btn-danger btn-sm remove-filter" data-bs-target="{{ filter.id }}" title="Delete">
                         <i class="bi bi-pencil"></i> Remove
