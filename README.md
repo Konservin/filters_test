@@ -22,7 +22,7 @@ To install the application in Linux, please follow these steps:
 5. Navigate to project URL in Chrome: "http://localhost:8090"
 
 If you run into any permission issues, try pasting into Terminal:
-	"make reload_dev"
+	"make reload_dev".
 If issues persist (local setup can be tricky at times), please contact me at ervin.bernhardt@gmail.com or (+372) 58242472. Reacting to English, Estonian, Finnish, Russian and French requests.
 
 Features:
