@@ -1,5 +1,14 @@
 Welcome to filters test site!
 
+Recommended server stack:
+OS: Linux (Ubuntu 22.04+ recommended) / macOS / Windows with WSL2
+Web Server: Nginx (configured in Docker) or Apache (if running manually)
+PHP Version: PHP 8.1+ (Required by composer.json)
+Database: MySQL 8.0 (Configured in Docker)
+Node.js: Node.js 16+ (Required for Webpack Encore)
+Package Manager: Yarn or NPM (for frontend assets)
+
+
 To install the application in Linux, please follow these steps:
 
 1. Open the Linux terminal
@@ -18,6 +27,6 @@ Features:
 3. Change new filter mode from Modal to FullScreen mode
 4. Add new criteria
 5. Add new criteria to new or existing filters
-6. Delete criteria fromnew or existing filters
-7. Save new or existing criteria'
-8. ypeToggle criteria subtype and value depending on criteria type
+6. Delete criteria from new or existing filters
+7. Save new or existing criteria
+8. Toggle criteria subtype and value depending on criteria type
