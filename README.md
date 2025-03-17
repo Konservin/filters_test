@@ -1,12 +1,13 @@
 Welcome to filters test site!
 
 Recommended server stack:
-OS: Linux (Ubuntu 22.04+ recommended) / macOS / Windows with WSL2
-Web Server: Nginx (configured in Docker) or Apache (if running manually)
-PHP Version: PHP 8.1+ (Required by composer.json)
-Database: MySQL 8.0 (Configured in Docker)
-Node.js: Node.js 16+ (Required for Webpack Encore)
-Package Manager: Yarn or NPM (for frontend assets)
+
+* OS: Linux (Ubuntu 22.04+ recommended) / macOS / Windows with WSL2
+* Web Server: Nginx (configured in Docker) or Apache (if running manually)
+* PHP Version: PHP 8.1+ (Required by composer.json)
+* Database: MySQL 8.0 (Configured in Docker)
+* Node.js: Node.js 16+ (Required for Webpack Encore)
+* Update readmeUPackage Manager: Yarn or NPM (for frontend assets)
 
 
 To install the application in Linux, please follow these steps:
