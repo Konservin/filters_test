@@ -3,7 +3,7 @@
 help:
 	@echo "Please use \`make <target>' where <target> is one of"
 	@echo "setup		set up the original test project"
-	@echo "reload		to make a Docker reload"
+	@echo "reload		For debugging purposes, make a Docker reload"
 
 setup:
 	composer install
@@ -15,7 +15,11 @@ setup:
 	docker-compose build --no-cache && docker-compose up -d
 
 reload:
-	#npm run dev
+	sudo chown -R 33:33 .
+	docker restart symfony_php
+
+webr:
+	npm run dev
 	sudo chown -R 33:33 .
 	docker restart symfony_php
 

@@ -94,6 +94,35 @@ class FilterController extends AbstractController
         ]);
     }
 
+    #[Route('/filter/edit/modal/{id}', name: 'edit_filter_modal', methods: ['GET'])]
+    public function editModal(int $id, EntityManagerInterface $entityManager): Response
+    {
+        $filter = $entityManager->getRepository(Filters::class)->find($id);
+        if (!$filter) {
+            return new Response('Filter not found', 404);
+        }
+
+        $form = $this->createForm(FiltersType::class, $filter);
+
+        return $this->render('MainBundle/_form.html.twig', [
+            'form' => $form->createView(),
+            'title' => 'Edit Filter'
+        ]);
+    }
+
+    #[Route('/filter/delete/{id}', name: 'delete_filter', methods: ['DELETE'])]
+    public function delete(int $id, EntityManagerInterface $entityManager): JsonResponse
+    {
+        $filter = $entityManager->getRepository(Filters::class)->find($id);
+        if (!$filter) {
+            return new JsonResponse(['message' => 'Filter not found'], 404);
+        }
+        $entityManager->remove($filter);
+        $entityManager->flush();
+
+        return new JsonResponse(['message' => 'Filter deleted successfully'], 200);
+    }
+
     #[Route('/api/subtypes/{typeId}', name: 'get_subtypes', methods: ['GET'])]
     public function getSubtypes(int $typeId): JsonResponse
     {

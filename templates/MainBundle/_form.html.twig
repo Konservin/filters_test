@@ -23,18 +23,14 @@
                 <td>{{ form_widget(criteriaForm.type, { 'attr': {'class': 'form-select js-type-select'} }) }}</td>
                 <td>{{ form_widget(criteriaForm.subtype, { 'attr': {'class': 'form-select js-subtype-select'} }) }}</td>
                 <td>{{ form_widget(criteriaForm.value, { 'attr': {'class': 'form-control js-value-input'} }) }}</td>
-                <td><button type="button" class="btn btn-danger btn-sm remove-criteria">Remove</button></td>
+                <td><button type="button" class="btn btn-danger btn-sm remove-criteria">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                </td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 </div>
-
-<!-- Add Criteria Button -->
-<button type="button" id="add-criteria" class="btn btn-secondary">Add Criteria</button>
-
-<!-- Save Button -->
-<button type="submit" class="btn btn-primary">Save Filter</button>
-
 {{ form_end(form) }}
 

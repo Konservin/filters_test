@@ -32,6 +32,20 @@ class FiltersType extends AbstractType
                     'label' => false
                 ],
         ]);
+
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
+            $data = $event->getData();
+            if (!$data) {
+                return;
+            }
+
+            foreach ($data->getCriteria() as $criteria) {
+                if (!$criteria->getType()) { // If no type is set, default to "Amount"
+                    $criteria->setType(1); // Assuming "Amount" has value 1 in DB
+                }
+            }
+        });
+
         $builder->addEventListener(
             FormEvents::POST_SUBMIT,
             function (FormEvent $event) {

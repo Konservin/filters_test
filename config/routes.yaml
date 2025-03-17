@@ -25,4 +25,12 @@ edit_filter:
   path: /filter/edit/{id}
   controller: App\Controller\FilterController::edit
 
+edit_filter_modal:
+  path: /filter/edit/modal/{id}
+  controller: App\Controller\FilterController::editModal
+
+delete_filter:
+  path: /filter/delete/{id}
+  controller: App\Controller\FilterController::delete
+
 
