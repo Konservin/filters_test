@@ -22,7 +22,7 @@ services:
     volumes:
       - ./mysql-init.sql:/docker-entrypoint-initdb.d/mysql-init.sql
     ports:
-      - "3306:3306"
+      - "3305:3305"
 
 #  db:
 #    image: postgres:9.5
