@@ -165,6 +165,38 @@ function changeValueField(field, value) {
     }
 }
 document.addEventListener("DOMContentLoaded", function() {
+    const sidebarNav = document.getElementById("sidebar-nav");
+    const listContent = document.getElementById("list-content");
+
+    let isFetching = false; // Prevent multiple requests
+
+    document.querySelectorAll(".nav-link").forEach(link => {
+        link.addEventListener("click", function (e) {
+            e.preventDefault();
+            if (isFetching) return; // Stop if already fetching
+
+            let listName = this.getAttribute("data-list");
+            isFetching = true;
+
+            fetch(`/api/list/${listName}`)
+                .then(response => response.text())
+                .then(html => {
+                    listContent.innerHTML = html;
+                    isFetching = false;
+
+                    // Remove "active" class from all sidebar links
+                    sidebarNav.querySelectorAll(".nav-link").forEach(nav => nav.classList.remove("active", "fw-bold", "text-primary"));
+
+                    // Add "active" class, bold font, and blue color to selected link
+                    this.classList.add("active", "fw-bold", "text-primary");
+                })
+                .catch(error => {
+                    console.error("Error loading list:", error);
+                    isFetching = false;
+                });
+        });
+    });
+
     attachAddCriteriaButton();
     changeInputType();
     const editFilterModal = document.getElementById("editFilterModal");
