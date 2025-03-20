@@ -13,6 +13,13 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import 'bootstrap-datepicker/dist/css/bootstrap-datepicker.css';
 import "./app.css"
 
+const valueTypes = {
+    int: '1',
+    string: '2',
+    date: '3'
+};
+window.valueTypes = valueTypes;
+
 // Function to handle type change event
 function onTypeChange(event) {
     const typeSelect = event.target;
@@ -46,23 +53,8 @@ function onTypeChange(event) {
     fetch(`/api/valuetype/${typeId}`)
         .then(response => response.json())
         .then(data => {
-            valueField.setAttribute('placeholder', '')
-            if (data.valueType === 'int') {
-                valueField.type = 'number';
-            } else if (data.valueType === 'string') {
-                valueField.type = 'text';
-            } else if (data.valueType === 'date') {
-                // Use a text field instead of a date input to use Bootstrap Datepicker with dd.mm.yyyy format
-                valueField.type = 'text';
-                valueField.classList.add('js-datepicker');
-                valueField.setAttribute('placeholder', 'dd.mm.yyyy')
 
-                $(valueField).datepicker({
-                    format: 'dd.mm.yyyy',
-                    autoclose: true,
-                    todayHighlight: true
-                });
-            }
+            changeValueField(valueField, window.valueTypes[data.valueType]);
         })
         .catch(error => console.error('Error fetching value type:', error));
 }
@@ -124,34 +116,51 @@ function attachAddCriteriaButton() {
     }
 }
 
-document.addEventListener("DOMContentLoaded", function() {
-    attachAddCriteriaButton();
-
+function changeInputType() {
     let form = document.querySelector("form");
     if (form) {
         let typeFields = document.querySelectorAll('[id^="filters_criteria_"][id$="_type"]');
         typeFields.forEach(field => {
             let valueField = field.closest('.criteria-item').querySelector('[id^="filters_criteria_"][id$="_value"]');
-            valueField.setAttribute('placeholder', '')
-            if (field.value === '1') {
-                valueField.type = 'number';
-            } else if (field.value === '2') {
-                valueField.type = 'text';
-            } else if (field.value === '3') {
-                // Use a text field instead of a date input to use Bootstrap Datepicker with dd.mm.yyyy format
-                valueField.type = 'text';
-                valueField.classList.add('js-datepicker');
-                valueField.setAttribute('placeholder', 'dd.mm.yyyy')
-
-                $(valueField).datepicker({
-                    format: 'dd.mm.yyyy',
-                    autoclose: true,
-                    todayHighlight: true
-                });
-            }
+            changeValueField(valueField, field.value);
         });
     }
-    
+}
+
+function changeValueField(field, value) {
+    field.setAttribute('placeholder', '');
+    field.classList.remove('js-datepicker');
+    if ($(field).data('datepicker')) {
+        $(field).datepicker('destroy');
+    }
+
+    if (value === '1') {
+        field.type = 'number';
+    } else if (value === '2') {
+        field.type = 'text';
+    } else if (value === '3') {
+        // Use a text field instead of a date input to use Bootstrap Datepicker with dd.mm.yyyy format
+        field.type = 'text';
+        field.classList.add('js-datepicker');
+        field.setAttribute('placeholder', 'dd.mm.yyyy')
+
+        $(field).datepicker({
+            format: 'dd.mm.yyyy',
+            autoclose: true,
+            todayHighlight: true
+        });
+    }
+}
+document.addEventListener("DOMContentLoaded", function() {
+    attachAddCriteriaButton();
+    changeInputType();
+    const editFilterModal = document.getElementById("editFilterModal");
+    if (editFilterModal) {
+        editFilterModal.addEventListener("shown.bs.modal", function () {
+            changeInputType();
+        });
+    }
+
     const filterModal = document.getElementById("filterModal");
     const filterFormContainer = document.getElementById("filterFormContainer");
     const saveFilterBtn = document.getElementById("save-filter-btn");
