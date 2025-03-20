@@ -9,7 +9,6 @@ Recommended server stack:
 * Node.js: Node.js 16+ (Required for Webpack Encore)
 * Update readmeUPackage Manager: Yarn or NPM (for frontend assets)
 
-
 To install the application in Linux, please follow these steps:
 
 1. Open the Linux terminal
@@ -22,7 +21,7 @@ To install the application in Linux, please follow these steps:
 5. Navigate to project URL in Chrome: "http://localhost:8090"
 
 If you run into any permission issues, try pasting into Terminal:
-	"make reload_dev".
+"make reload_dev".
 If issues persist (local setup can be tricky at times), please contact me at ervin.bernhardt@gmail.com or (+372) 58242472. Reacting to English, Estonian, Finnish, Russian and French requests.
 
 Features:
@@ -37,9 +36,8 @@ Features:
 8. Toggle criteria subtype and value depending on criteria type
 
 Issues:
+
 1. Can add any number of filters with the same name, needs fixing (not specified in task specs)
 2. Saving filter with no criteria redirects to non-modal form
 3. Scrolling of form elements not supported in non-modal form (not requested in task specs, not critical)
-4. Native bootstrap datepicker is not too aesthetical, needs restyling
-5. JavaScript could be more abstract and reusable, few extra hours should fix that.
-6. Editing a filter doesn't change value field types. Problen initializing the form, few hours should fix it.
+4. Native bootstrap datepicker is not too aesthetical, needs restylingRemove resolved issues
