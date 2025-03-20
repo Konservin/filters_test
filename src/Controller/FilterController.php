@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Filter;
+use App\Entity\FilterValues;
 use App\Form\CriteriaType;
 use App\Form\FiltersType;
 use App\Repository\FiltersRepository;
@@ -144,6 +145,27 @@ class FilterController extends AbstractController
         }
 
         return new JsonResponse(['valueType' => $valueType]);
+    }
+
+    #[Route('/api/filtervalues', name: 'get_filtervalues', methods: ['GET'])]
+    public function getFilterValues(): JsonResponse
+    {
+        $filterValue = $this->filterValuesRepository->findAll();
+
+        if (!$filterValue) {
+            return new JsonResponse(['error' => 'No value types found'], 404);
+        }
+
+        $data = [];
+        /* @var FilterValues $value*/
+        foreach ($filterValue as $value) {
+            $data[] = [
+                'id' => $value->getId(),
+                'type' => $value->getValueType(),
+            ];
+        }
+
+        return new JsonResponse($data);
     }
 }
 

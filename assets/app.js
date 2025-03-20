@@ -13,11 +13,21 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import 'bootstrap-datepicker/dist/css/bootstrap-datepicker.css';
 import "./app.css"
 
-const valueTypes = {
+/*const valueTypes = {
     int: '1',
     string: '2',
     date: '3'
-};
+};*/
+
+const valueTypes = {};
+fetch(`/api/filtervalues`)
+    .then(response => response.json())
+    .then(data => {
+        data.forEach(subtype => {
+            valueTypes[subtype.type] = subtype.id
+        });
+    })
+    .catch(error => console.error('Error fetching value types:', error));
 window.valueTypes = valueTypes;
 
 // Function to handle type change event
@@ -35,7 +45,20 @@ function onTypeChange(event) {
     }
     subtypeSelect.innerHTML = '<option value="">Select a subtype</option>';
 
+    changeType(typeId, subtypeSelect);
+
+    // Fetch value type dynamically and adjust the value field
+    fetch(`/api/valuetype/${typeId}`)
+        .then(response => response.json())
+        .then(data => {
+            changeValueField(valueField, window.valueTypes[data.valueType]);
+        })
+        .catch(error => console.error('Error fetching value type:', error));
+}
+
+function changeType(typeId, subtypeSelect) {
     if (typeId) {
+        subtypeSelect.innerHTML = '';
         fetch(`/api/subtypes/${typeId}`)
             .then(response => response.json())
             .then(data => {
@@ -48,15 +71,6 @@ function onTypeChange(event) {
             })
             .catch(error => console.error('Error fetching subtypes:', error));
     }
-
-    // Fetch value type dynamically and adjust the value field
-    fetch(`/api/valuetype/${typeId}`)
-        .then(response => response.json())
-        .then(data => {
-
-            changeValueField(valueField, window.valueTypes[data.valueType]);
-        })
-        .catch(error => console.error('Error fetching value type:', error));
 }
 
 function addCriteria(event) {
@@ -103,7 +117,6 @@ function addCriteria(event) {
         setTimeout(() => {
             let event = new Event('change', { bubbles: true });
             newTypeSelect.dispatchEvent(event);
-            console.log("Change event triggered on new type select.");
         }, 100);
     }
 }
@@ -122,7 +135,7 @@ function changeInputType() {
         let typeFields = document.querySelectorAll('[id^="filters_criteria_"][id$="_type"]');
         typeFields.forEach(field => {
             let valueField = field.closest('.criteria-item').querySelector('[id^="filters_criteria_"][id$="_value"]');
-            changeValueField(valueField, field.value);
+            changeValueField(valueField, parseInt(field.value));
         });
     }
 }
@@ -134,11 +147,11 @@ function changeValueField(field, value) {
         $(field).datepicker('destroy');
     }
 
-    if (value === '1') {
+    if (value === window.valueTypes['int']) {
         field.type = 'number';
-    } else if (value === '2') {
+    } else if (value === window.valueTypes['string']) {
         field.type = 'text';
-    } else if (value === '3') {
+    } else if (value === window.valueTypes['date']) {
         // Use a text field instead of a date input to use Bootstrap Datepicker with dd.mm.yyyy format
         field.type = 'text';
         field.classList.add('js-datepicker');
@@ -158,6 +171,10 @@ document.addEventListener("DOMContentLoaded", function() {
     if (editFilterModal) {
         editFilterModal.addEventListener("shown.bs.modal", function () {
             changeInputType();
+            document.querySelectorAll('.js-type-select').forEach(select => {
+                const subtypeSelect = select.parentElement.parentElement.querySelector('.js-subtype-select')
+                changeType(select.value, subtypeSelect);
+            });
         });
     }
 
@@ -199,13 +216,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function submitFilterForm(form) {
         let formData = new FormData(form);
-
-        // Debugging: Log all form data before sending
-        console.log("Form Submission Data:");
-        for (let pair of formData.entries()) {
-            console.log(pair[0] + ": " + pair[1]);
-        }
-
         fetch(form.action, {
             method: form.method,
             body: formData,
@@ -215,8 +225,6 @@ document.addEventListener("DOMContentLoaded", function() {
         })
             .then(response => response.text())
             .then(html => {
-                console.log("Server Response:", html); // Debug response
-
                 if (html.includes("<form")) {
                     document.getElementById("filterFormContainer").innerHTML = html;
                     attachAddCriteriaButton(); // Reattach Add Criteria after reload
@@ -224,7 +232,6 @@ document.addEventListener("DOMContentLoaded", function() {
                 if (html.includes("alert-danger") || html.includes("form-error")) {
                     document.getElementById("editFilterFormContainer").innerHTML = html;
                 } else {
-                    console.log("Form submission successful, reloading page...");
                     location.reload(); // Reload page if successful
                 }
             })
@@ -265,7 +272,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Attach change event to existing type selects
     document.querySelectorAll('.js-type-select').forEach(select => {
-        select.addEventListener('change', onTypeChange);
+        changeType(typeId);
     });
 
     // Ensure the button event fires only once
