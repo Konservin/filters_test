@@ -180,7 +180,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
     const filterModal = document.getElementById("filterModal");
     const filterFormContainer = document.getElementById("filterFormContainer");
-    const saveFilterBtn = document.getElementById("save-filter-btn");
 
     if (filterModal) {
         filterModal.addEventListener("show.bs.modal", function () {
@@ -193,18 +192,16 @@ document.addEventListener("DOMContentLoaded", function() {
 
                     // Attach event listener for form submission
                     let form = filterFormContainer.querySelector("form");
-                    if (form) {
-                        form.addEventListener("submit", function (event) {
-                            event.preventDefault();
-                            submitFilterForm(form);
-                        });
-                    }
+                    form.setAttribute('action', 'filter/new/modal');
 
                     // Reattach "Add Criteria" event listener after form loads
                     attachAddCriteriaButton();
+                    const saveFilterBtn = document.getElementById("save-filter-btn");
                     saveFilterBtn.addEventListener("click", function () {
                         if (form && form.checkValidity()) {
-                            form.submit();
+                            let form = document.getElementsByTagName("form")[0];
+                            form.setAttribute('action', 'filter/new/modal');
+                            submitFilterForm(form, '');
                         } else {
                             form.reportValidity(); // Shows validation error messages
                         }
@@ -214,7 +211,7 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
-    function submitFilterForm(form) {
+    function submitFilterForm(form, container = 'editFilterFormContainer') {
         let formData = new FormData(form);
         fetch(form.action, {
             method: form.method,
@@ -225,12 +222,13 @@ document.addEventListener("DOMContentLoaded", function() {
         })
             .then(response => response.text())
             .then(html => {
+                if (document.getElementById("filterFormContainer")) {}
                 if (html.includes("<form")) {
-                    document.getElementById("filterFormContainer").innerHTML = html;
+                    document.getElementById(container).innerHTML = html;
                     attachAddCriteriaButton(); // Reattach Add Criteria after reload
                 }
                 if (html.includes("alert-danger") || html.includes("form-error")) {
-                    document.getElementById("editFilterFormContainer").innerHTML = html;
+                    document.getElementById(container).innerHTML = html;
                 } else {
                     location.reload(); // Reload page if successful
                 }
@@ -254,11 +252,13 @@ document.addEventListener("DOMContentLoaded", function() {
 
                     let form = editFilterFormContainer.querySelector("form");
                     if (form) {
-                        form.setAttribute('action', 'filter/edit/' + filterId);
+                        form.setAttribute('action', 'filter/edit/modal/' + filterId);
                         let nonModalButton = document.querySelector('.non-modal-button');
-                        nonModalButton.setAttribute('href', '/filter/edit/' + filterId)
+                        nonModalButton.setAttribute('href', '/filter/edit/' + filterId);
                         saveEditFilterBtn.addEventListener("click", function () {
                             if (form && form.checkValidity()) {
+                                let form = document.getElementsByTagName("form")[0];
+                                form.setAttribute('action', 'filter/edit/modal/' + filterId);
                                 submitFilterForm(form);
                             } else {
                                 form.reportValidity(); // Shows validation error messages
@@ -269,12 +269,10 @@ document.addEventListener("DOMContentLoaded", function() {
                 .catch(error => console.error("Error loading edit filter form:", error));
         });
     });
-
     // Attach change event to existing type selects
     document.querySelectorAll('.js-type-select').forEach(select => {
         changeType(typeId);
     });
-
     // Ensure the button event fires only once
     let addModalCriteriaButton = document.getElementById('modal-add-criteria');
 

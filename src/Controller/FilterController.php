@@ -60,20 +60,28 @@ class FilterController extends AbstractController
     {
         $filter = new Filter();
         $form = $this->createForm(FiltersType::class, $filter);
+        $form->handleRequest($request);
 
-        if ($request->isXmlHttpRequest()) {
-            return $this->render('MainBundle/_form.html.twig', [
-                'form' => $form->createView(),
-            ]);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $filter = $form->getData();
+            $entityManager->persist($filter);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('filter_list');
         }
 
-        return new Response("Invalid request", Response::HTTP_BAD_REQUEST);
+        return $this->render('MainBundle/_form.html.twig', [
+            'form' => $form->createView(),
+        ]);
     }
 
     #[Route('/filter/edit/{id}', name: 'edit_filter')]
     public function edit(Request $request, int $id, EntityManagerInterface $entityManager): Response
     {
         $filter = $this->filtersRepository->find($id);
+        if (!$filter) {
+            return new Response('Filter not found', 404);
+        }
         $form = $this->createForm(FiltersType::class, $filter);
         $form->handleRequest($request);
 
@@ -91,7 +99,7 @@ class FilterController extends AbstractController
     }
 
     #[Route('/filter/edit/modal/{id}', name: 'edit_filter_modal', methods: ['GET'])]
-    public function editModal(int $id, EntityManagerInterface $entityManager): Response
+    public function editModal(Request $request, int $id, EntityManagerInterface $entityManager): Response
     {
         $filter = $entityManager->getRepository(Filter::class)->find($id);
         if (!$filter) {
@@ -99,6 +107,16 @@ class FilterController extends AbstractController
         }
 
         $form = $this->createForm(FiltersType::class, $filter);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $filter = $form->getData();
+            dump($filter);
+            $entityManager->persist($filter);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('filter_list');
+        }
 
         return $this->render('MainBundle/_form.html.twig', [
             'form' => $form->createView(),
