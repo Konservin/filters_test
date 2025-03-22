@@ -7,7 +7,8 @@ Recommended server stack:
 * PHP Version: PHP 8.1+ (Required by composer.json)
 * Database: MySQL 8.0 (Configured in Docker)
 * Node.js: Node.js 16+ (Required for Webpack Encore)
-* Update readmeUPackage Manager: Yarn or NPM (for frontend assets)
+* Package Manager: Yarn or NPM (for frontend assets)
+* Docker Engine 19.03+
 
 To install the application in Linux, please follow these steps:
 
