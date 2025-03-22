@@ -174,6 +174,7 @@ document.addEventListener("DOMContentLoaded", function() {
             document.querySelectorAll('.js-type-select').forEach(select => {
                 const subtypeSelect = select.parentElement.parentElement.querySelector('.js-subtype-select')
                 changeType(select.value, subtypeSelect);
+                select.addEventListener('change', onTypeChange);
             });
         });
     }
