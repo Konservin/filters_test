@@ -4,6 +4,7 @@ if (!Encore.isRuntimeEnvironmentConfigured()) {
     Encore.configureRuntimeEnvironment(process.env.NODE_ENV || 'dev');
 }
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const webpack = require('webpack');
 
 Encore
     // directory where compiled assets will be stored
@@ -65,10 +66,14 @@ Encore
     // requires WebpackEncoreBundle 1.4 or higher
     //.enableIntegrityHashes(Encore.isProduction())
 
-    // uncomment if you're having problems with a jQuery plugin
-    //.autoProvidejQuery()
-
     // Copy jQuery to public/build/assets
+    .autoProvidejQuery() // <-- required for Bootstrap plugins
+
+    .addPlugin(new webpack.ProvidePlugin({
+        $: 'jquery',
+        jQuery: 'jquery',
+        'window.jQuery': 'jquery'
+    }))
     .addPlugin(new CopyWebpackPlugin({
         patterns: [
             { from: 'node_modules/jquery/dist/jquery.min.js', to: 'assets/jquery/js/' }

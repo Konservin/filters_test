@@ -5,12 +5,13 @@
 import 'bootstrap';
 import { Modal } from 'bootstrap';
 import $ from 'jquery';
-import 'jquery/dist/jquery.min.js';
-import 'bootstrap-datepicker/dist/js/bootstrap-datepicker.js';
+window.$ = $;
+window.jQuery = $;
+import 'bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js';
 
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
-import 'bootstrap-datepicker/dist/css/bootstrap-datepicker.css';
+import 'bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css';
 import "./app.css"
 
 /*const valueTypes = {
@@ -202,7 +203,7 @@ document.addEventListener("DOMContentLoaded", function() {
                         if (form && form.checkValidity()) {
                             let form = document.getElementsByTagName("form")[0];
                             form.setAttribute('action', 'filter/new/modal');
-                            submitFilterForm(form, '');
+                            submitFilterForm(form, 'filterFormContainer');
                         } else {
                             form.reportValidity(); // Shows validation error messages
                         }
