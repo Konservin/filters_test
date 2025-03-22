@@ -41,4 +41,4 @@ Issues:
 1. Can add any number of filters with the same name, needs fixing (not specified in task specs)
 2. Saving filter with no criteria redirects to non-modal form
 3. Scrolling of form elements not supported in non-modal form (not requested in task specs, not critical)
-4. Native bootstrap datepicker is not too aesthetical, needs restylingRemove resolved issues
+4. Native bootstrap datepicker is not too aesthetical, needs restyling
