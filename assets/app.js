@@ -271,10 +271,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 .catch(error => console.error("Error loading edit filter form:", error));
         });
     });
-    // Attach change event to existing type selects
-    document.querySelectorAll('.js-type-select').forEach(select => {
-        changeType(typeId);
-    });
+
     // Ensure the button event fires only once
     let addModalCriteriaButton = document.getElementById('modal-add-criteria');
 
